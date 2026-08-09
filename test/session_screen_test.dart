@@ -7,7 +7,9 @@ import 'package:untools/model/tool_config.dart';
 import 'package:untools/screens/session_screen.dart';
 import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
+import 'package:untools/tools/decision/perspective_lenses.dart';
 import 'package:untools/tools/problem/inversion.dart';
+import 'package:untools/tools/systems/iceberg_model.dart';
 
 import 'fake_session_store.dart';
 
@@ -67,6 +69,16 @@ void main() {
   testWidgets('dispatches a grid tool to the grid view', (tester) async {
     await pumpSession(tester, decisionMatrix);
     expect(find.textContaining('to start scoring'), findsOneWidget);
+  });
+
+  testWidgets('dispatches a ladder tool to the ladder view', (tester) async {
+    await pumpSession(tester, icebergModel);
+    expect(find.text('Events'), findsOneWidget);
+  });
+
+  testWidgets('dispatches a lens tool to the lens view', (tester) async {
+    await pumpSession(tester, perspectiveLenses);
+    expect(find.text('Process'), findsOneWidget);
   });
 
   testWidgets('says so when the session has been deleted', (tester) async {
@@ -138,26 +150,6 @@ void main() {
         tags: [],
         related: [],
         phases: [LoopPhase(slotId: 'p', name: 'Observe', prompt: 'p')],
-      ),
-      LadderConfig(
-        id: 'ladder',
-        name: 'Ladder',
-        blurb: 'b',
-        attribution: 'a',
-        primary: ToolCategory.systemsThinking,
-        tags: [],
-        related: [],
-        fixedRungs: [RungSpec(slotId: 'r', name: 'Events', prompt: 'p')],
-      ),
-      LensConfig(
-        id: 'lens',
-        name: 'Lens',
-        blurb: 'b',
-        attribution: 'a',
-        primary: ToolCategory.decisionMaking,
-        tags: [],
-        related: [],
-        lenses: [LensCard(slotId: 'l', name: 'Risks', prompt: 'p')],
       ),
     ];
 

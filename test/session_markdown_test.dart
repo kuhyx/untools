@@ -300,6 +300,64 @@ void main() {
       expect(markdown, contains('the outage'));
     });
 
+    test('a growable ladder exports its rungs broadest first', () {
+      const growable = LadderConfig(
+        id: 'growable',
+        name: 'Growable',
+        blurb: 'b',
+        attribution: 'a',
+        primary: ToolCategory.problemSolving,
+        tags: [],
+        related: [],
+        grow: GrowSpec(
+          seedPrompt: 's',
+          upLabel: 'Why?',
+          upPrompt: 'u',
+          downLabel: 'How?',
+          downPrompt: 'd',
+        ),
+      );
+
+      final markdown = sessionToMarkdown(
+        sessionFor(
+          growable,
+          slots: {
+            'rungs': [
+              {'id': '1', 'label': 'Get soup out of the can'},
+              {'id': 'seed', 'label': 'Design a better can opener'},
+            ],
+          },
+        ),
+        growable,
+        now: _exportedAt,
+      );
+
+      expect(markdown, contains('## Rungs, broadest first'));
+      expect(markdown, contains('- Get soup out of the can'));
+      expect(markdown, contains('- Design a better can opener'));
+    });
+
+    test('a fixed ladder exports no rung list', () {
+      const fixed = LadderConfig(
+        id: 'fixed',
+        name: 'Fixed',
+        blurb: 'b',
+        attribution: 'a',
+        primary: ToolCategory.systemsThinking,
+        tags: [],
+        related: [],
+        fixedRungs: [RungSpec(slotId: 'r1', name: 'Events', prompt: 'p')],
+      );
+
+      final markdown = sessionToMarkdown(
+        sessionFor(fixed),
+        fixed,
+        now: _exportedAt,
+      );
+
+      expect(markdown, isNot(contains('Rungs, broadest first')));
+    });
+
     test('lens writes each perspective', () {
       const lens = LensConfig(
         id: 'lens',

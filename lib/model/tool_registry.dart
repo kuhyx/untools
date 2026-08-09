@@ -2,9 +2,17 @@
 library;
 
 import 'package:untools/model/tool_config.dart';
+import 'package:untools/tools/communication/feedback_framer.dart';
+import 'package:untools/tools/communication/minto_pyramid.dart';
+import 'package:untools/tools/decision/cynefin_framework.dart';
 import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
+import 'package:untools/tools/decision/ladder_of_inference.dart';
+import 'package:untools/tools/decision/perspective_lenses.dart';
+import 'package:untools/tools/problem/abstraction_laddering.dart';
 import 'package:untools/tools/problem/inversion.dart';
+import 'package:untools/tools/problem/productive_thinking_model.dart';
+import 'package:untools/tools/systems/iceberg_model.dart';
 
 /// Every tool in the app.
 ///
@@ -14,8 +22,16 @@ import 'package:untools/tools/problem/inversion.dart';
 /// than shipping a dead link.
 const List<ToolConfig> allTools = [
   inversion,
+  abstractionLaddering,
+  productiveThinkingModel,
   eisenhowerMatrix,
   decisionMatrix,
+  ladderOfInference,
+  perspectiveLenses,
+  cynefinFramework,
+  icebergModel,
+  mintoPyramid,
+  feedbackFramer,
 ];
 
 /// Looks up a tool by [ToolConfig.id], or null when there is no such tool.

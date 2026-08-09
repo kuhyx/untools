@@ -11,6 +11,7 @@ import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/patterns/grid/scoring.dart';
+import 'package:untools/patterns/ladder/ladder_view.dart';
 
 /// Renders [session] of [tool] as a Markdown document.
 String sessionToMarkdown(Session session, ToolConfig tool, {DateTime? now}) {
@@ -69,7 +70,16 @@ void _writeBody(StringBuffer buffer, Session session, ToolConfig tool) {
           ..writeln(_answerOr(session.text(rung.slotId)))
           ..writeln();
       }
-      _writeBullets(buffer, session.records('rungs'), 'label');
+      // A growable ladder has no named levels, so its rungs export as an
+      // ordered list, top (most abstract) first.
+      final rungs = session.records(kLadderRungsSlot);
+      if (rungs.isNotEmpty) {
+        buffer
+          ..writeln('## Rungs, broadest first')
+          ..writeln();
+        _writeBullets(buffer, rungs, 'label');
+        buffer.writeln();
+      }
 
     case LensConfig(:final lenses):
       for (final lens in lenses) {

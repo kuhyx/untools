@@ -36,4 +36,36 @@ const List<GuideQuestion> guideQuestions = [
     question: 'I have several good options and cannot choose.',
     toolId: 'decision-matrix',
   ),
+  GuideQuestion(
+    question: 'This same problem keeps coming back.',
+    toolId: 'iceberg-model',
+  ),
+  GuideQuestion(
+    question: 'I am sure I am right and someone else disagrees.',
+    toolId: 'ladder-of-inference',
+  ),
+  GuideQuestion(
+    question: 'I might be solving the wrong problem.',
+    toolId: 'abstraction-laddering',
+  ),
+  GuideQuestion(
+    question: 'I need to explain this so it actually lands.',
+    toolId: 'minto-pyramid',
+  ),
+  GuideQuestion(
+    question: 'This discussion keeps going round in circles.',
+    toolId: 'perspective-lenses',
+  ),
+  GuideQuestion(
+    question: 'I do not know how to respond to this situation.',
+    toolId: 'cynefin-framework',
+  ),
+  GuideQuestion(
+    question: 'I have to give someone awkward feedback.',
+    toolId: 'feedback-framer',
+  ),
+  GuideQuestion(
+    question: 'The problem is a mess and I need a way in.',
+    toolId: 'productive-thinking-model',
+  ),
 ];

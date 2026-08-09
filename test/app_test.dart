@@ -88,7 +88,11 @@ void main() {
     await tester.tap(find.text('All tools'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Inversion'));
+    // Scrolled into view rather than tapped blind: the catalogue grows every
+    // phase, so any tool's position on screen is a moving target.
+    final tool = find.text('Iceberg model');
+    await tester.scrollUntilVisible(tool, 200);
+    await tester.tap(tool.first);
     await tester.pumpAndSettle();
 
     expect(find.text('Start a session'), findsOneWidget);
