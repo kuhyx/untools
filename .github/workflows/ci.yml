@@ -31,6 +31,14 @@ jobs:
           lh=$(awk -F: '/^LH:/{s+=$2} END{print s}' coverage/lcov.info)
           echo "Lines covered: $lh / $lf"
           if [ "$lf" != "$lh" ]; then
+            # Name the lines rather than just the count. A gap that reproduces
+            # only on a runner (different fonts, no display, different locale)
+            # is otherwise a guessing game from a red build.
+            echo "Uncovered lines:"
+            awk -F: '
+              /^SF:/ { file = substr($0, 4) }
+              /^DA:/ { split(substr($0, 4), a, ","); if (a[2] == 0) print "  " file ":" a[1] }
+            ' coverage/lcov.info
             echo "::error::Flutter line coverage is below 100% ($lh/$lf)"
             exit 1
           fi
