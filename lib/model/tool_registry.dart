@@ -2,8 +2,10 @@
 library;
 
 import 'package:untools/model/tool_config.dart';
+import 'package:untools/tools/communication/concept_map.dart';
 import 'package:untools/tools/communication/feedback_framer.dart';
 import 'package:untools/tools/communication/minto_pyramid.dart';
+import 'package:untools/tools/decision/conflict_resolution_diagram.dart';
 import 'package:untools/tools/decision/cynefin_framework.dart';
 import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
@@ -15,7 +17,9 @@ import 'package:untools/tools/problem/first_principles.dart';
 import 'package:untools/tools/problem/inversion.dart';
 import 'package:untools/tools/problem/issue_trees.dart';
 import 'package:untools/tools/problem/productive_thinking_model.dart';
+import 'package:untools/tools/systems/connection_circles.dart';
 import 'package:untools/tools/systems/iceberg_model.dart';
+import 'package:untools/tools/systems/ishikawa_diagram.dart';
 
 /// Every tool in the app.
 ///
@@ -35,8 +39,12 @@ const List<ToolConfig> allTools = [
   perspectiveLenses,
   cynefinFramework,
   secondOrderThinking,
+  conflictResolutionDiagram,
   icebergModel,
+  ishikawaDiagram,
+  connectionCircles,
   mintoPyramid,
+  conceptMap,
   feedbackFramer,
 ];
 

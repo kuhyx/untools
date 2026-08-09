@@ -12,6 +12,7 @@ import 'package:untools/export/session_markdown.dart';
 import 'package:untools/export/share_target.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
+import 'package:untools/patterns/graph/graph_view.dart';
 import 'package:untools/patterns/grid/grid_view.dart';
 import 'package:untools/patterns/ladder/ladder_view.dart';
 import 'package:untools/patterns/lens/lens_view.dart';
@@ -103,9 +104,10 @@ class SessionScreen extends StatelessWidget {
         return LensView(session: session, config: config, onChanged: save);
       case final TreeConfig config:
         return TreeView(session: session, config: config, onChanged: save);
+      case final GraphConfig config:
+        return GraphView(session: session, config: config, onChanged: save);
       // Patterns landing in later phases. Listed explicitly rather than via a
       // `default:` so the sealed switch keeps its exhaustiveness guarantee.
-      case GraphConfig():
       case LoopConfig():
         return const Center(child: Text('This tool is not built yet.'));
     }

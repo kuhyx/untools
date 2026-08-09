@@ -10,6 +10,9 @@ library;
 import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
+// Namespaced: the tree and graph models both expose a `nodesFromRecords`, and
+// each is the right name inside its own pattern.
+import 'package:untools/patterns/graph/graph_model.dart' as graph;
 import 'package:untools/patterns/grid/scoring.dart';
 import 'package:untools/patterns/ladder/ladder_view.dart';
 import 'package:untools/patterns/tree/tree_model.dart';
@@ -112,19 +115,27 @@ void _writeBody(StringBuffer buffer, Session session, ToolConfig tool) {
       buffer
         ..writeln('## Elements')
         ..writeln();
-      _writeBullets(buffer, session.records('nodes'), 'label');
+      _writeBullets(buffer, session.records(graph.kGraphNodesSlot), 'label');
       buffer
         ..writeln()
         ..writeln('## Links')
         ..writeln();
       final nodes = {
-        for (final node in session.records('nodes'))
-          node['id'] as String? ?? '': node['label'] as String? ?? '',
+        for (final node in graph.nodesFromRecords(
+          session.records(graph.kGraphNodesSlot),
+        ))
+          node.id: node.label,
       };
-      for (final edge in session.records('edges')) {
-        final from = nodes[edge['from']] ?? '?';
-        final to = nodes[edge['to']] ?? '?';
-        final label = edge['label'] as String? ?? edge['sign'] as String? ?? '';
+      for (final edge in graph.edgesFromRecords(
+        session.records(graph.kGraphEdgesSlot),
+      )) {
+        final from = nodes[edge.from] ?? '?';
+        final to = nodes[edge.to] ?? '?';
+        // A written relationship wins over the polarity glyph, but an
+        // unlabelled signed edge must still show its sign: the codec always
+        // writes `label`, so falling back on null rather than emptiness would
+        // silently drop the `+`/`-` from every connection circle.
+        final label = edge.label.isNotEmpty ? edge.label : edge.sign.glyph;
         buffer.writeln('- $from --($label)--> $to');
       }
       buffer.writeln();

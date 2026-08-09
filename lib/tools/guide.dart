@@ -80,4 +80,20 @@ const List<GuideQuestion> guideQuestions = [
     question: 'The immediate effect looks good, but I am not sure.',
     toolId: 'second-order-thinking',
   ),
+  GuideQuestion(
+    question: 'Something keeps going wrong and the causes are all over.',
+    toolId: 'ishikawa-diagram',
+  ),
+  GuideQuestion(
+    question: 'This situation keeps escalating on its own.',
+    toolId: 'connection-circles',
+  ),
+  GuideQuestion(
+    question: 'Two options look mutually exclusive and both are needed.',
+    toolId: 'conflict-resolution-diagram',
+  ),
+  GuideQuestion(
+    question: 'I half-understand this and cannot explain it.',
+    toolId: 'concept-map',
+  ),
 ];

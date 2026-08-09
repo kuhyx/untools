@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:untools/export/session_markdown.dart';
 import 'package:untools/model/pattern_specs.dart';
+import 'package:untools/patterns/graph/graph_model.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/tools/decision/decision_matrix.dart';
@@ -473,6 +474,80 @@ void main() {
 
       expect(markdown, contains('- Bugs'));
       expect(markdown, contains('- Bugs --(+)--> Rework'));
+    });
+
+    test('graph keeps the polarity of an edge with no written label', () {
+      // Built through the codec rather than as a literal: a hand-written
+      // fixture can omit `label` entirely, which the real writer never does,
+      // and that difference hid the sign being dropped from every export.
+      const graph = GraphConfig(
+        id: 'graph3',
+        name: 'Graph',
+        blurb: 'b',
+        attribution: 'a',
+        primary: ToolCategory.systemsThinking,
+        tags: [],
+        related: [],
+        variant: GraphVariant.circle,
+        seeds: [],
+      );
+
+      final markdown = sessionToMarkdown(
+        sessionFor(
+          graph,
+          slots: {
+            kGraphNodesSlot: nodesToRecords(const [
+              GraphNode(id: 'a', label: 'Bugs'),
+              GraphNode(id: 'b', label: 'Rework'),
+            ]),
+            kGraphEdgesSlot: edgesToRecords(const [
+              GraphEdge(from: 'a', to: 'b', sign: EdgeSign.positive),
+            ]),
+          },
+        ),
+        graph,
+        now: _exportedAt,
+      );
+
+      expect(markdown, contains('- Bugs --(+)--> Rework'));
+    });
+
+    test('graph prefers a written label over the polarity glyph', () {
+      const graph = GraphConfig(
+        id: 'graph4',
+        name: 'Graph',
+        blurb: 'b',
+        attribution: 'a',
+        primary: ToolCategory.systemsThinking,
+        tags: [],
+        related: [],
+        variant: GraphVariant.free,
+        seeds: [],
+      );
+
+      final markdown = sessionToMarkdown(
+        sessionFor(
+          graph,
+          slots: {
+            kGraphNodesSlot: nodesToRecords(const [
+              GraphNode(id: 'a', label: 'Bugs'),
+              GraphNode(id: 'b', label: 'Rework'),
+            ]),
+            kGraphEdgesSlot: edgesToRecords(const [
+              GraphEdge(
+                from: 'a',
+                to: 'b',
+                label: 'causes',
+                sign: EdgeSign.positive,
+              ),
+            ]),
+          },
+        ),
+        graph,
+        now: _exportedAt,
+      );
+
+      expect(markdown, contains('- Bugs --(causes)--> Rework'));
     });
 
     test('graph tolerates an edge pointing at a missing node', () {
