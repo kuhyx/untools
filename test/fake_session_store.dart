@@ -7,10 +7,19 @@ import 'package:untools/model/session.dart';
 /// and asserting on real behaviour reads better than asserting on call counts.
 class FakeSessionStore implements SessionStore {
   /// Creates a store, optionally pre-populated.
-  FakeSessionStore([List<Session> initial = const []])
-    : _sessions = [...initial];
+  ///
+  /// [saveDelay] models the latency of a real write. It defaults to zero, but
+  /// a test that types several characters in a row needs it: an instant store
+  /// hides lost-update races that a phone reproduces every time.
+  FakeSessionStore([
+    List<Session> initial = const [],
+    this.saveDelay = Duration.zero,
+  ]) : _sessions = [...initial];
 
   final List<Session> _sessions;
+
+  /// How long a write takes to complete.
+  final Duration saveDelay;
 
   /// Set to have the next write throw, to exercise failure handling.
   Object? failure;
@@ -22,6 +31,7 @@ class FakeSessionStore implements SessionStore {
 
   @override
   Future<void> save(Session session) async {
+    if (saveDelay > Duration.zero) await Future<void>.delayed(saveDelay);
     if (failure case final error?) throw Exception(error);
     _sessions
       ..removeWhere((existing) => existing.id == session.id)

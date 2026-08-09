@@ -4,6 +4,7 @@ import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/patterns/graph/graph_model.dart';
 import 'package:untools/patterns/graph/graph_view.dart';
+import 'package:untools/patterns/graph/layout.dart';
 import 'package:untools/tools/communication/concept_map.dart';
 import 'package:untools/tools/decision/conflict_resolution_diagram.dart';
 import 'package:untools/tools/systems/connection_circles.dart';
@@ -563,6 +564,77 @@ void main() {
       );
 
       expect(find.text('Reinforcing: Debt → Debt'), findsOne);
+    });
+
+    testWidgets('reserves no canvas while the diagram is empty', (
+      tester,
+    ) async {
+      // Found on a Pixel 6a: 320px of blank canvas is a third of a phone
+      // screen, and it pushed "Add element" — the only thing there is to do on
+      // an empty graph — below the fold. The desktop test sizes hid it.
+      await pumpGraph(tester, conceptMap, size: const Size(1080, 2400));
+
+      // Asserted on the reserved height, not on CustomPaint: Material uses
+      // painters internally, so its presence says nothing about our canvas.
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is SizedBox && w.height == kCanvasHeight,
+          skipOffstage: false,
+        ),
+        findsNothing,
+      );
+      expect(find.text('Add element'), findsOne);
+    });
+
+    testWidgets('shows the canvas once there is a node to draw', (
+      tester,
+    ) async {
+      await pumpGraph(
+        tester,
+        conceptMap,
+        slots: graphSlots(
+          nodes: const [GraphNode(id: 'a', label: 'A')],
+        ),
+      );
+
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is SizedBox && w.height == kCanvasHeight,
+        ),
+        findsOne,
+      );
+    });
+
+    testWidgets('gives a node label more room than the disc it labels', (
+      tester,
+    ) async {
+      // "Rework" rendered as "Rewor" on a Pixel 6a: the label was constrained
+      // to the 68px disc. Asserted on the box the text is laid out in, not on
+      // the glyphs' own width — a short word fits either way, so measuring the
+      // rendered text would pass against the bug.
+      await pumpGraph(
+        tester,
+        connectionCircles,
+        size: const Size(1080, 2400),
+        slots: graphSlots(
+          nodes: const [
+            GraphNode(id: 'a', label: 'Rework'),
+            GraphNode(id: 'b', label: 'Bugs'),
+          ],
+        ),
+      );
+
+      final slot = tester.getSize(
+        find
+            .ancestor(
+              of: find.text('Rework').first,
+              matching: find.byType(Stack),
+            )
+            .first,
+      );
+
+      expect(slot.width, kNodeLabelWidth);
+      expect(slot.width, greaterThan(kNodeRadius * 2));
     });
 
     testWidgets('is usable at 1024x600 without overflowing', (tester) async {

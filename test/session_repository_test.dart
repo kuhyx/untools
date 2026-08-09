@@ -139,4 +139,36 @@ void main() {
       throwsUnsupportedError,
     );
   });
+
+  test('an edit made while a save is in flight is not lost', () async {
+    // The phone bug this reproduces: every keystroke saves, and each save
+    // computes the next value from `sessions`. While the write was awaited
+    // first, that list stayed stale, so characters typed during the write
+    // were built on the old value and dropped — "Deployment" persisted as
+    // "Deployme". Needs a store with latency; an instant one cannot race.
+    final store = FakeSessionStore(const [], const Duration(milliseconds: 20));
+    final repository = SessionRepository(store);
+    await repository.load();
+
+    final now = DateTime(2026, 8, 9, 12);
+    Session build(String title) => Session(
+      id: 's1',
+      toolId: 't',
+      title: title,
+      createdAt: now,
+      updatedAt: now.add(Duration(milliseconds: title.length)),
+      slots: const {},
+    );
+
+    // Fire a save and, without awaiting it, read back what the next edit
+    // would build on — exactly what a second keystroke does.
+    final inFlight = repository.save(build('Deploy'));
+    expect(repository.byId('s1')?.title, 'Deploy');
+
+    final second = repository.save(build('Deployment'));
+    await Future.wait([inFlight, second]);
+
+    expect(repository.byId('s1')?.title, 'Deployment');
+    expect((await store.loadAll()).single.title, 'Deployment');
+  });
 }

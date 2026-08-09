@@ -28,6 +28,9 @@ import 'package:uuid/uuid.dart';
 /// Height reserved for the diagram before the editing list.
 const double kCanvasHeight = 320;
 
+/// Width a node's label may occupy, wider than the disc it labels.
+const double kNodeLabelWidth = 132;
+
 /// Renders the graph and the controls that edit it.
 class GraphView extends StatelessWidget {
   /// Creates the graph view.
@@ -118,11 +121,20 @@ class GraphView extends StatelessWidget {
 
     return ListView(
       children: [
-        SizedBox(
-          height: kCanvasHeight,
-          child: _Diagram(variant: config.variant, nodes: nodes, edges: edges),
-        ),
-        const SizedBox(height: AppSpacing.md),
+        // Hidden until there is something to draw. On a phone the canvas is a
+        // third of the screen, and reserving it for an empty diagram pushes
+        // the controls you need first — "Add element" — below the fold.
+        if (nodes.isNotEmpty) ...[
+          SizedBox(
+            height: kCanvasHeight,
+            child: _Diagram(
+              variant: config.variant,
+              nodes: nodes,
+              edges: edges,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+        ],
         _SectionHeading(
           title: 'Elements',
           action: _canEditNodes
@@ -210,11 +222,15 @@ class _Diagram extends StatelessWidget {
                 ),
               ),
             ),
+            // Laid out wider than the disc it is centred on: a 68px circle
+            // cannot hold even a short word, and clipping the label inside it
+            // turned "Rework" into "Rewor" on a phone. The text sits over the
+            // gap between nodes instead, which the layout keeps clear.
             for (final placed in placements)
               Positioned(
-                left: placed.center.dx - kNodeRadius,
+                left: placed.center.dx - kNodeLabelWidth / 2,
                 top: placed.center.dy - kNodeRadius,
-                width: kNodeRadius * 2,
+                width: kNodeLabelWidth,
                 height: kNodeRadius * 2,
                 child: _NodeChip(node: placed.node),
               ),
@@ -241,24 +257,26 @@ class _NodeChip extends StatelessWidget {
     final theme = Theme.of(context);
     return Semantics(
       label: node.label.isEmpty ? 'Unnamed element' : node.label,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest,
-          shape: BoxShape.circle,
-          border: Border.all(color: theme.colorScheme.outlineVariant),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.xs),
-            child: Text(
-              node.label,
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.labelSmall,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: kNodeRadius * 2,
+            height: kNodeRadius * 2,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              shape: BoxShape.circle,
+              border: Border.all(color: theme.colorScheme.outlineVariant),
             ),
           ),
-        ),
+          Text(
+            node.label,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.labelSmall,
+          ),
+        ],
       ),
     );
   }

@@ -34,15 +34,22 @@ class SessionRepository extends ChangeNotifier {
   }
 
   /// Inserts or replaces [session], keeping the list newest-first.
+  ///
+  /// The in-memory list is updated **before** the write is awaited, and that
+  /// ordering is load-bearing. Every keystroke in a text field saves, and each
+  /// save rebuilds the next edit from `sessions`; awaiting the store first
+  /// left that list stale for the duration of the write, so characters typed
+  /// during it were computed against the old value and lost. On a phone this
+  /// reliably dropped the tail of anything typed at speed — "Deployment"
+  /// persisted as "Deployme" — while an instant in-memory test store hid it.
   Future<void> save(Session session) async {
-    await _store.save(session);
-    final next = [
+    _sessions = [
       session,
       for (final existing in _sessions)
         if (existing.id != session.id) existing,
     ]..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
-    _sessions = next;
     notifyListeners();
+    await _store.save(session);
   }
 
   /// Removes the session with [id].
