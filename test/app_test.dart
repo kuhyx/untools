@@ -79,12 +79,19 @@ void main() {
     await tester.tap(find.text('All tools'));
     await tester.pumpAndSettle();
 
-    // Scrolled to, not asserted in place: every phase adds tools, so which
-    // headings start above the fold changes as the catalogue grows.
-    for (final heading in ['Problem solving', 'Decision making']) {
+    // Scrolled to one at a time, in list order. The list is lazy, so an
+    // off-screen heading is not merely offstage — it does not exist yet, and
+    // only scrolling brings it into being. Every phase adds tools, so which
+    // headings start above the fold keeps changing.
+    for (final heading in [
+      'Systems thinking',
+      'Decision making',
+      'Problem solving',
+      'Communication',
+    ]) {
       final finder = find.text(heading);
-      await tester.scrollUntilVisible(finder, 200);
-      expect(finder, findsOneWidget);
+      await tester.scrollUntilVisible(finder, 300);
+      expect(finder, findsOneWidget, reason: heading);
     }
   });
 

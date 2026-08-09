@@ -20,7 +20,7 @@ const mintoPyramid = LadderConfig(
   attribution: 'Devised by Barbara Minto',
   primary: ToolCategory.communication,
   tags: ['writing', 'structure', 'quick'],
-  related: ['situation-behavior-impact', 'issue-trees'],
+  related: ['feedback-framer', 'issue-trees', 'concept-map'],
   fixedRungs: [
     RungSpec(
       slotId: 'answer',

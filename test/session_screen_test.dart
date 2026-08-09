@@ -7,6 +7,7 @@ import 'package:untools/model/tool_config.dart';
 import 'package:untools/screens/session_screen.dart';
 import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
+import 'package:untools/tools/decision/ooda_loop.dart';
 import 'package:untools/tools/decision/perspective_lenses.dart';
 import 'package:untools/tools/problem/inversion.dart';
 import 'package:untools/tools/problem/issue_trees.dart';
@@ -96,6 +97,11 @@ void main() {
     expect(find.text('Feedback loops'), findsOneWidget);
   });
 
+  testWidgets('dispatches a loop tool to the loop view', (tester) async {
+    await pumpSession(tester, oodaLoop);
+    expect(find.text('Observe'), findsOneWidget);
+  });
+
   testWidgets('says so when the session has been deleted', (tester) async {
     // Reachable in the real app: delete a session on one screen while its
     // detail route is still on the stack.
@@ -127,30 +133,5 @@ void main() {
     expect(exported, contains('# A session'));
     // The attribution is a hard requirement on every export.
     expect(exported, contains(inversion.attribution));
-  });
-
-  group('patterns landing in a later phase', () {
-    // Each is dispatched explicitly rather than through a `default:` arm, so
-    // the sealed switch keeps its exhaustiveness guarantee — adding a ninth
-    // pattern must fail to compile here rather than silently fall through.
-    const unbuilt = <ToolConfig>[
-      LoopConfig(
-        id: 'loop',
-        name: 'Loop',
-        blurb: 'b',
-        attribution: 'a',
-        primary: ToolCategory.decisionMaking,
-        tags: [],
-        related: [],
-        phases: [LoopPhase(slotId: 'p', name: 'Observe', prompt: 'p')],
-      ),
-    ];
-
-    for (final tool in unbuilt) {
-      testWidgets('${tool.name} says it is not built yet', (tester) async {
-        await pumpSession(tester, tool);
-        expect(find.text('This tool is not built yet.'), findsOneWidget);
-      });
-    }
   });
 }

@@ -96,4 +96,32 @@ const List<GuideQuestion> guideQuestions = [
     question: 'I half-understand this and cannot explain it.',
     toolId: 'concept-map',
   ),
+  GuideQuestion(
+    question: 'I fixed this before and it came back.',
+    toolId: 'five-whys',
+  ),
+  GuideQuestion(
+    question: 'Events are outpacing my decisions.',
+    toolId: 'ooda-loop',
+  ),
+  GuideQuestion(
+    question: 'This is growing faster the longer it runs.',
+    toolId: 'reinforcing-loop',
+  ),
+  GuideQuestion(
+    question: 'However hard I push, it springs back.',
+    toolId: 'balancing-loop',
+  ),
+  GuideQuestion(
+    question: 'Everything on the backlog looks worth doing.',
+    toolId: 'impact-effort-matrix',
+  ),
+  GuideQuestion(
+    question: 'I have been turning this decision over for days.',
+    toolId: 'hard-choice-model',
+  ),
+  GuideQuestion(
+    question: 'My ideas are all variations on the same one.',
+    toolId: 'zwicky-box',
+  ),
 ];

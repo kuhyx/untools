@@ -38,6 +38,12 @@ void main() {
       }
     });
 
+    test('the catalogue is complete at 25 tools', () {
+      // Adjudicated by the suite rather than counted by hand: "all 25 tools"
+      // is the project's scope, so it should fail CI if it regresses.
+      expect(allTools, hasLength(25));
+    });
+
     test('every attribution reads as a complete credit line', () {
       // The detail screen prints the attribution verbatim. It used to prefix
       // "Devised by", which produced "Devised by Systems-thinking canon, in
