@@ -1,0 +1,46 @@
+name: untools
+description: >-
+  Guided, offline thinking tools — 25 frameworks that run the method instead of
+  describing it.
+publish_to: "none"
+
+# X.Y.Z only; CI replaces the +build part with the workflow run number.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Local-only persistence. IndexedDB on web (which is also the desktop build),
+  # a plain JSON file under the app support dir on Android. No network, no
+  # accounts, no sync: deliberately NOT crdt_sync/http/secure_storage.
+  idb_shim: ^2.9.6+2
+  path: ^1.9.1
+  path_provider: ^2.1.5
+
+  # Markdown export: share sheet on Android, Blob download on web.
+  share_plus: ^13.1.0
+
+  uuid: ^4.5.3
+  web: ^1.1.1
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^10.2.0
+
+flutter:
+  uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#211D1B"
+  adaptive_icon_foreground: "assets/icon/icon_foreground.png"
+  adaptive_icon_monochrome: "assets/icon/icon_monochrome.png"
+  min_sdk_android: 21
