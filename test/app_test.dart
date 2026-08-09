@@ -79,8 +79,13 @@ void main() {
     await tester.tap(find.text('All tools'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Problem solving'), findsOneWidget);
-    expect(find.text('Decision making'), findsOneWidget);
+    // Scrolled to, not asserted in place: every phase adds tools, so which
+    // headings start above the fold changes as the catalogue grows.
+    for (final heading in ['Problem solving', 'Decision making']) {
+      final finder = find.text(heading);
+      await tester.scrollUntilVisible(finder, 200);
+      expect(finder, findsOneWidget);
+    }
   });
 
   testWidgets('tapping a tool in the index opens it', (tester) async {

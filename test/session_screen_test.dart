@@ -9,6 +9,7 @@ import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
 import 'package:untools/tools/decision/perspective_lenses.dart';
 import 'package:untools/tools/problem/inversion.dart';
+import 'package:untools/tools/problem/issue_trees.dart';
 import 'package:untools/tools/systems/iceberg_model.dart';
 
 import 'fake_session_store.dart';
@@ -81,6 +82,14 @@ void main() {
     expect(find.text('Process'), findsOneWidget);
   });
 
+  testWidgets('dispatches a tree tool to the tree view', (tester) async {
+    await pumpSession(tester, issueTrees);
+    expect(
+      find.text('State the problem you are breaking down.'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('says so when the session has been deleted', (tester) async {
     // Reachable in the real app: delete a session on one screen while its
     // detail route is still on the stack.
@@ -119,17 +128,6 @@ void main() {
     // the sealed switch keeps its exhaustiveness guarantee — adding a ninth
     // pattern must fail to compile here rather than silently fall through.
     const unbuilt = <ToolConfig>[
-      TreeConfig(
-        id: 'tree',
-        name: 'Tree',
-        blurb: 'b',
-        attribution: 'a',
-        primary: ToolCategory.problemSolving,
-        tags: [],
-        related: [],
-        rootPrompt: 'p',
-        modes: [TreeMode(id: 'why', label: 'Why', childPrompt: 'Why?')],
-      ),
       GraphConfig(
         id: 'graph',
         name: 'Graph',

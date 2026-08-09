@@ -12,6 +12,8 @@ import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/patterns/grid/scoring.dart';
 import 'package:untools/patterns/ladder/ladder_view.dart';
+import 'package:untools/patterns/tree/tree_model.dart';
+import 'package:untools/patterns/tree/tree_view.dart';
 
 /// Renders [session] of [tool] as a Markdown document.
 String sessionToMarkdown(Session session, ToolConfig tool, {DateTime? now}) {
@@ -104,7 +106,7 @@ void _writeBody(StringBuffer buffer, Session session, ToolConfig tool) {
         ..writeln();
 
     case TreeConfig():
-      _writeTree(buffer, session.records('nodes'));
+      _writeTree(buffer, session.records(kTreeNodesSlot));
 
     case GraphConfig():
       buffer
@@ -202,11 +204,16 @@ void _writeGrid(
   }
 }
 
-void _writeTree(StringBuffer buffer, List<Map<String, Object?>> nodes) {
+void _writeTree(StringBuffer buffer, List<Map<String, Object?>> records) {
+  // Indentation is derived from parentId via the tree model, not read from a
+  // stored depth — a stored depth can disagree with the actual structure, and
+  // then the export quietly misrepresents the decomposition.
+  final nodes = nodesFromRecords(records);
   for (final node in nodes) {
-    final depth = node['depth'] as int? ?? 0;
-    final label = node['label'] as String? ?? '';
-    buffer.writeln('${'  ' * depth}- $label');
+    final indent = '  ' * depthOf(node, nodes);
+    final label = node.label.isEmpty ? '_(empty)_' : node.label;
+    final mece = node.mece ? '  _(covers every case, no overlap)_' : '';
+    buffer.writeln('$indent- $label$mece');
   }
   buffer.writeln();
 }

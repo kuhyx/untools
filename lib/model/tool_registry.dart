@@ -9,8 +9,11 @@ import 'package:untools/tools/decision/decision_matrix.dart';
 import 'package:untools/tools/decision/eisenhower_matrix.dart';
 import 'package:untools/tools/decision/ladder_of_inference.dart';
 import 'package:untools/tools/decision/perspective_lenses.dart';
+import 'package:untools/tools/decision/second_order_thinking.dart';
 import 'package:untools/tools/problem/abstraction_laddering.dart';
+import 'package:untools/tools/problem/first_principles.dart';
 import 'package:untools/tools/problem/inversion.dart';
+import 'package:untools/tools/problem/issue_trees.dart';
 import 'package:untools/tools/problem/productive_thinking_model.dart';
 import 'package:untools/tools/systems/iceberg_model.dart';
 
@@ -24,11 +27,14 @@ const List<ToolConfig> allTools = [
   inversion,
   abstractionLaddering,
   productiveThinkingModel,
+  issueTrees,
+  firstPrinciples,
   eisenhowerMatrix,
   decisionMatrix,
   ladderOfInference,
   perspectiveLenses,
   cynefinFramework,
+  secondOrderThinking,
   icebergModel,
   mintoPyramid,
   feedbackFramer,

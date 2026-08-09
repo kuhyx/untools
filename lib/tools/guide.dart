@@ -68,4 +68,16 @@ const List<GuideQuestion> guideQuestions = [
     question: 'The problem is a mess and I need a way in.',
     toolId: 'productive-thinking-model',
   ),
+  GuideQuestion(
+    question: 'This problem is too big to hold in my head.',
+    toolId: 'issue-trees',
+  ),
+  GuideQuestion(
+    question: 'Everyone does it this way and I suspect it is just habit.',
+    toolId: 'first-principles',
+  ),
+  GuideQuestion(
+    question: 'The immediate effect looks good, but I am not sure.',
+    toolId: 'second-order-thinking',
+  ),
 ];

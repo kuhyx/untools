@@ -425,9 +425,11 @@ void main() {
         sessionFor(
           tree,
           slots: {
-            'nodes': [
-              {'id': '1', 'label': 'Root', 'depth': 0},
-              {'id': '2', 'label': 'Cause', 'depth': 1},
+            // Depth is derived from parentId, never stored: a saved depth can
+            // disagree with the real structure once a node is reparented.
+            'nodes': <Map<String, Object?>>[
+              {'id': '1', 'label': 'Root', 'parentId': null},
+              {'id': '2', 'label': 'Cause', 'parentId': '1'},
             ],
           },
         ),
