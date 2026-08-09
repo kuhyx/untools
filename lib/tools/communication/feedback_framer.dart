@@ -20,7 +20,9 @@ const feedbackFramer = WizardConfig(
   blurb:
       'You need to tell someone something awkward. Describe when, what you '
       'observed, and what it caused — and leave the verdict out.',
-  attribution: 'Center for Creative Leadership (SBI™ is their trademark)',
+  attribution:
+      "Implements the Center for Creative Leadership's method "
+      '(SBI™ is their trademark)',
   primary: ToolCategory.communication,
   tags: ['feedback', 'conversation', 'quick'],
   related: ['ladder-of-inference', 'minto-pyramid'],

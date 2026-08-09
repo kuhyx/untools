@@ -21,7 +21,9 @@ const cynefinFramework = LensConfig(
       'Before deciding what to do, work out what kind of situation this '
       'is. The right response to a complicated problem is the wrong response '
       'to a chaotic one.',
-  attribution: 'Dave Snowden (with Mary Boone, Harvard Business Review, 2007)',
+  attribution:
+      'Devised by Dave Snowden (with Mary Boone, Harvard '
+      'Business Review, 2007)',
   primary: ToolCategory.decisionMaking,
   tags: ['sense-making', 'response', 'quick'],
   related: ['ladder-of-inference', 'iceberg-model', 'decision-matrix'],

@@ -17,7 +17,7 @@ const ladderOfInference = LadderConfig(
       'You are certain about something and someone else is not. Walk back '
       'down from the conclusion to the raw data and find the rung where you '
       'jumped.',
-  attribution: 'Chris Argyris; popularised by Peter Senge',
+  attribution: 'Devised by Chris Argyris; popularised by Peter Senge',
   primary: ToolCategory.decisionMaking,
   tags: ['assumptions', 'conflict', 'reasoning'],
   related: ['second-order-thinking', 'inversion', 'iceberg-model'],

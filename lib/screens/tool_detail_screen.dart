@@ -62,8 +62,12 @@ class ToolDetailScreen extends StatelessWidget {
             child: Text(tool.blurb, style: theme.textTheme.bodyLarge),
           ),
           const SizedBox(height: AppSpacing.md),
+          // No "Devised by" prefix: not every attribution is a person's name.
+          // "Devised by Systems-thinking canon, in the Donella Meadows
+          // lineage" reads as broken English, and it did on the phone. Each
+          // attribution is written as a complete credit line instead.
           Text(
-            'Devised by ${tool.attribution}.',
+            tool.attribution,
             style: theme.textTheme.labelMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),

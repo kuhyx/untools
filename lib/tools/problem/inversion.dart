@@ -14,7 +14,9 @@ const inversion = WizardConfig(
   blurb:
       'Stuck picturing only the good outcome? Describe the disaster '
       'instead, then work out what would have caused it.',
-  attribution: 'Carl Gustav Jacob Jacobi; popularised by Charlie Munger',
+  attribution:
+      'Devised by Carl Gustav Jacob Jacobi; popularised by '
+      'Charlie Munger',
   primary: ToolCategory.problemSolving,
   tags: ['reframing', 'risk', 'quick'],
   related: ['first-principles', 'abstraction-laddering'],

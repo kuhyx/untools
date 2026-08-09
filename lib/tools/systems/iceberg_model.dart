@@ -18,7 +18,9 @@ const icebergModel = LadderConfig(
       'The same problem keeps coming back. Look under the incident for the '
       'pattern, the structure producing it, and the belief that keeps that '
       'structure in place.',
-  attribution: 'Systems-thinking canon, in the Donella Meadows lineage',
+  attribution:
+      'From the systems-thinking canon, in the Donella Meadows '
+      'lineage',
   primary: ToolCategory.systemsThinking,
   tags: ['root-cause', 'recurring'],
   related: ['connection-circles', 'issue-trees', 'inversion'],

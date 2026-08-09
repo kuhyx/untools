@@ -38,6 +38,24 @@ void main() {
       }
     });
 
+    test('every attribution reads as a complete credit line', () {
+      // The detail screen prints the attribution verbatim. It used to prefix
+      // "Devised by", which produced "Devised by Systems-thinking canon, in
+      // the Donella Meadows lineage" on the phone — broken English, shipped.
+      // So each attribution now carries its own opening, and this asserts the
+      // convention rather than trusting the next author to remember it.
+      const openers = ['Devised by', 'Implements', 'From', 'A ', 'The '];
+      for (final tool in allTools) {
+        expect(
+          openers.any(tool.attribution.startsWith),
+          isTrue,
+          reason:
+              '${tool.name}: "${tool.attribution}" must start with one of '
+              '$openers so it reads as a sentence on its own',
+        );
+      }
+    });
+
     test('every tool has a name and a blurb', () {
       for (final tool in allTools) {
         expect(tool.name.trim(), isNotEmpty);

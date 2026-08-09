@@ -22,7 +22,7 @@ const perspectiveLenses = LensConfig(
       'frame at a time — everyone on the same frame at once — instead of '
       'arguing every angle simultaneously.',
   attribution:
-      "Edward de Bono's parallel-thinking method "
+      "Implements Edward de Bono's parallel-thinking method "
       '(Six Thinking Hats® is his trademark)',
   primary: ToolCategory.decisionMaking,
   tags: ['perspective', 'group', 'meeting'],

@@ -17,7 +17,7 @@ const mintoPyramid = LadderConfig(
       'You have to explain something and want it to land. Say the answer '
       'first, then why, then the evidence — not the order you discovered it '
       'in.',
-  attribution: 'Barbara Minto',
+  attribution: 'Devised by Barbara Minto',
   primary: ToolCategory.communication,
   tags: ['writing', 'structure', 'quick'],
   related: ['situation-behavior-impact', 'issue-trees'],

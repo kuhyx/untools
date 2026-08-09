@@ -34,7 +34,7 @@ void main() {
     expect(markdown, '''
 # Recurring release bugs
 
-_Iceberg model — Systems-thinking canon, in the Donella Meadows lineage_
+_Iceberg model — From the systems-thinking canon, in the Donella Meadows lineage_
 
 The same problem keeps coming back. Look under the incident for the pattern, the structure producing it, and the belief that keeps that structure in place.
 

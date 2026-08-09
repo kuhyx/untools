@@ -21,7 +21,7 @@ const productiveThinkingModel = WizardConfig(
       'A messy problem and no obvious way in. Six steps: understand it, '
       'define success, ask the right question, generate answers, choose one, '
       'and turn it into actions.',
-  attribution: 'Tim Hurson, Think Better',
+  attribution: 'Devised by Tim Hurson, in Think Better',
   primary: ToolCategory.problemSolving,
   tags: ['creative', 'process', 'thorough'],
   related: ['first-principles', 'inversion', 'decision-matrix'],

@@ -17,7 +17,9 @@ const abstractionLaddering = LadderConfig(
       'Your problem statement may be the wrong altitude. Go up for a '
       'broader framing, down for a more concrete one, and pick the rung worth '
       'solving.',
-  attribution: "S.I. Hayakawa's ladder of abstraction, adapted for design",
+  attribution:
+      "From S.I. Hayakawa's ladder of abstraction, adapted for "
+      'design practice',
   primary: ToolCategory.problemSolving,
   tags: ['reframing', 'quick'],
   related: ['first-principles', 'issue-trees', 'inversion'],

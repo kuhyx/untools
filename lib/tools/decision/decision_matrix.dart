@@ -16,7 +16,7 @@ const decisionMatrix = ScoredGridConfig(
   blurb:
       'Several decent options and no obvious winner? Score each against '
       'the factors that matter, weighted by how much they matter.',
-  attribution: 'Classic weighted-scoring (Pugh) matrix',
+  attribution: 'A classic weighted-scoring (Pugh) matrix',
   primary: ToolCategory.decisionMaking,
   tags: ['comparison', 'scoring'],
   related: ['hard-choice-model', 'eisenhower-matrix', 'second-order-thinking'],

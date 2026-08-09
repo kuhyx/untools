@@ -20,7 +20,9 @@ const eisenhowerMatrix = MatrixConfig(
   blurb:
       'Everything feels urgent. Sort it by whether it actually matters, '
       'and the list stops being flat.',
-  attribution: 'Dwight D. Eisenhower (1954 speech); grid by Stephen Covey',
+  attribution:
+      'The distinction is Dwight D. Eisenhower (1954); the grid '
+      'is Stephen Covey',
   primary: ToolCategory.decisionMaking,
   tags: ['prioritisation', 'quick'],
   related: ['impact-effort-matrix', 'decision-matrix', 'hard-choice-model'],
