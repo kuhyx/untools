@@ -45,7 +45,6 @@ declare -rA COVERAGE_EXEMPT=(
     [lib/export/share_target.dart]="conditional export only; no executable lines"
     [lib/data/session_store_web.dart]="browser-only: imports idb_browser, which pulls dart:js_interop and will not compile into the VM test binary"
     [lib/export/share_target_web.dart]="browser-only: needs a real DOM (Blob + synthetic anchor click)"
-    [lib/ui/keyboard.dart]="shared shortcut/focus-ring helpers; exercised through the widgets that use them"
 )
 
 # Tool configs are `const` values by design — a const declaration emits no
@@ -112,6 +111,14 @@ enforce_full_coverage() {
 
 main() {
     cd "$REPO_DIR"
+
+    # CI has already run the individual steps by this point and only needs the
+    # completeness check, whose exemption list lives here so that the local
+    # gate and the remote one cannot disagree.
+    if [[ "${1:-}" == "--coverage-completeness-only" ]]; then
+        enforce_coverage_completeness
+        return
+    fi
 
     log "flutter clean"
     flutter clean

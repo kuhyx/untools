@@ -46,35 +46,15 @@ jobs:
       # Keeps the percentage above honest. A lib/ file that no test imports is
       # absent from lcov.info entirely rather than reported at 0%, so "100%"
       # of a denominator that quietly excludes half the app is a gate that
-      # fails open. scripts/ci_mirror.sh runs the same check locally, with the
-      # exemption list and its reasons.
+      # fails open.
+      #
+      # Delegated to scripts/ci_mirror.sh rather than reimplemented here: the
+      # exemption list (and the reason for each entry) has to live in exactly
+      # one place, or the local mirror and CI drift and the pre-push gate stops
+      # predicting the build. The script also fails on a *stale* exemption —
+      # one that is covered now, or names a file that no longer exists.
       - name: Enforce coverage completeness
-        run: |
-          missing=0
-          while IFS= read -r f; do
-            if grep -qxF "SF:$f" coverage/lcov.info; then
-              continue
-            fi
-            if grep -q 'coverage:ignore-file' "$f"; then
-              echo "note: $f is coverage:ignore-file — skipping"
-              continue
-            fi
-            # Absent from lcov means one of two things: no test imports the
-            # file (a real gap), or it declares only consts, sealed types and
-            # abstract members and so emits no executable lines (fine). Tell
-            # them apart by looking for a function or method body.
-            if grep -qE '^\s*(class|mixin|extension)?\s*[A-Za-z_<>, ]+\s+[a-zA-Z_]+\([^)]*\)\s*(async\s*)?\{' "$f"; then
-              echo "::error file=$f::$f has executable code but no test imports it"
-              missing=1
-            else
-              echo "note: $f is declaration-only (no executable lines) — skipping"
-            fi
-          done < <(find lib -name '*.dart')
-          if [ "$missing" -ne 0 ]; then
-            echo "Add tests, or mark the file // coverage:ignore-file with a reason."
-            exit 1
-          fi
-          echo "All executable lib/ files appear in the coverage report."
+        run: ./scripts/ci_mirror.sh --coverage-completeness-only
       # The only check that catches a `dart:io` import reaching lib/main.dart:
       # the analyzer and the VM-hosted test suite both accept one happily, and
       # the desktop app is this web build.
