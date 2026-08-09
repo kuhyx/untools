@@ -171,12 +171,23 @@ void main() {
       },
     );
 
+    // Driven as an explicit gesture that ends *on* the target rather than
+    // `tester.drag` with a precomputed offset. The offset form assumes the
+    // target has not moved during the drag, which is false here: lifting the
+    // item shrinks its source quadrant and everything below shifts up. That
+    // made the drop land in open space on a CI runner (whose font metrics
+    // differ from this machine's) while passing locally — a 5-line coverage
+    // gap that took a red build to notice.
     final item = find.text('Draggable item');
-    final target = find.text('Delegate');
-    await tester.drag(item, tester.getCenter(target) - tester.getCenter(item));
+    final gesture = await tester.startGesture(tester.getCenter(item));
+    await tester.pump(const Duration(milliseconds: 600));
+    await gesture.moveTo(tester.getCenter(find.text('Delegate')));
+    await tester.pump();
+    await gesture.up();
     await tester.pumpAndSettle();
 
     expect(session().records('delegate'), hasLength(1));
+    expect(session().records('do'), isEmpty);
   });
 
   testWidgets('dropping an item back where it started changes nothing', (
@@ -191,8 +202,14 @@ void main() {
       },
     );
 
+    // Dropped back onto its own quadrant: _move must no-op rather than
+    // duplicate the item or blank the slot.
     final item = find.text('Item');
-    await tester.drag(item, const Offset(0, 1));
+    final gesture = await tester.startGesture(tester.getCenter(item));
+    await tester.pump(const Duration(milliseconds: 600));
+    await gesture.moveTo(tester.getCenter(find.text('Do')));
+    await tester.pump();
+    await gesture.up();
     await tester.pumpAndSettle();
 
     expect(session().records('do'), hasLength(1));
