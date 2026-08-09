@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:untools/model/pattern_specs.dart';
+import 'package:untools/model/tool_config.dart';
 
 /// Covers the spec types whose tools land in a later phase.
 ///
@@ -127,5 +128,187 @@ void main() {
     expect(axis.label, 'Urgency');
     expect(axis.lowLabel, 'Not urgent');
     expect(axis.highLabel, 'Urgent');
+  });
+
+  test('a wizard step carries its prompt and any subfields', () {
+    final step = WizardStep(
+      slotId: 'worst',
+      title: 'The worst version',
+      prompt: 'Describe it.',
+      subfields: [
+        WizardStep(slotId: 'why', title: 'Why', prompt: 'Why that?'),
+      ],
+    );
+
+    expect(step.title, 'The worst version');
+    expect(step.subfields, hasLength(1));
+  });
+
+  test('a quadrant names itself and what to do about it', () {
+    final quadrant = QuadrantSpec(
+      corner: QuadrantCorner.topRight,
+      slotId: 'do',
+      name: 'Do',
+      action: 'Handle it now.',
+    );
+
+    expect(quadrant.corner, QuadrantCorner.topRight);
+    expect(quadrant.name, 'Do');
+    expect(quadrant.action, isNotEmpty);
+  });
+
+  group('every ToolConfig variant', () {
+    // Constructed at RUNTIME, one per variant, for the same reason as the spec
+    // types above: the catalogue in `lib/tools/` is entirely `const`, so these
+    // constructors are compile-time folded and never execute. Whether that
+    // counts as covered depends on how the VM canonicalises constants — it did
+    // on a dev machine and did not on a CI runner, which is a nine-line
+    // coverage gap that looks like a real one. Do not "tidy" these to `const`.
+    const id = 'x';
+    const name = 'X';
+    const blurb = 'b';
+    const attribution = 'From somewhere';
+    const primary = ToolCategory.problemSolving;
+    const tags = <String>[];
+    const related = <String>[];
+
+    test('wizard', () {
+      final config = WizardConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        steps: const [WizardStep(slotId: 's', title: 'S', prompt: 'p')],
+      );
+
+      expect(config.steps, hasLength(1));
+    });
+
+    test('matrix', () {
+      final config = MatrixConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        xAxis: const AxisSpec(label: 'X', lowLabel: 'lo', highLabel: 'hi'),
+        yAxis: const AxisSpec(label: 'Y', lowLabel: 'lo', highLabel: 'hi'),
+        quadrants: const [
+          QuadrantSpec(
+            corner: QuadrantCorner.topLeft,
+            slotId: 'q',
+            name: 'Q',
+            action: 'a',
+          ),
+        ],
+      );
+
+      expect(config.quadrants, hasLength(1));
+    });
+
+    test('tree', () {
+      final config = TreeConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        rootPrompt: 'p',
+        modes: const [TreeMode(id: 'why', label: 'Why', childPrompt: 'c')],
+      );
+
+      expect(config.modes, hasLength(1));
+      expect(config.meceCheck, isFalse);
+    });
+
+    test('graph', () {
+      final config = GraphConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        variant: GraphVariant.free,
+        seeds: const [SeedNode(slotId: 's', label: 'S')],
+      );
+
+      expect(config.variant, GraphVariant.free);
+      expect(config.seeds, hasLength(1));
+    });
+
+    test('loop', () {
+      final config = LoopConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        phases: const [LoopPhase(slotId: 'p', name: 'P', prompt: 'p')],
+      );
+
+      expect(config.phases, hasLength(1));
+      expect(config.growable, isFalse);
+    });
+
+    test('ladder', () {
+      final config = LadderConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        fixedRungs: const [RungSpec(slotId: 'r', name: 'R', prompt: 'p')],
+      );
+
+      expect(config.fixedRungs, hasLength(1));
+      expect(config.grow, isNull);
+    });
+
+    test('lens', () {
+      final config = LensConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        lenses: const [LensCard(slotId: 'l', name: 'L', prompt: 'p')],
+      );
+
+      expect(config.lenses, hasLength(1));
+      expect(config.classifier, isNull);
+    });
+
+    test('scored grid', () {
+      final config = ScoredGridConfig(
+        id: id,
+        name: name,
+        blurb: blurb,
+        attribution: attribution,
+        primary: primary,
+        tags: tags,
+        related: related,
+        mode: GridMode.weightedScore,
+        rowNoun: 'Option',
+        columnNoun: 'Factor',
+      );
+
+      expect(config.mode, GridMode.weightedScore);
+      expect(config.rowNoun, 'Option');
+    });
   });
 }
