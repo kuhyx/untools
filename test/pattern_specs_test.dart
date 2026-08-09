@@ -6,9 +6,18 @@ import 'package:untools/model/pattern_specs.dart';
 /// These are `const` value classes with no logic, so the assertions are thin
 /// by design — the point is that the shapes the later patterns will be built
 /// against are exercised and cannot silently rot in the meantime.
+///
+/// **Deliberately `final`, not `const`, at every call site here.** A `const`
+/// expression is folded at compile time and its constructor never executes, so
+/// whether the constructor line registers as covered depends on how the VM
+/// canonicalises constants — it counted on this machine and did not on a CI
+/// runner, which is a five-line coverage gap that looks like a real one. The
+/// production configs in `lib/tools/` stay `const` on purpose (that is what
+/// keeps them out of the coverage denominator); only the tests construct at
+/// runtime. Do not "tidy" these back to `const`.
 void main() {
   test('SeedNode carries a fixed template node', () {
-    const node = SeedNode(
+    final node = SeedNode(
       slotId: 'methods',
       label: 'Methods',
       prompt: 'What about how the work is done?',
@@ -21,12 +30,12 @@ void main() {
   });
 
   test('SeedNode can be marked deletable', () {
-    const node = SeedNode(slotId: 'extra', label: 'Extra', fixed: false);
+    final node = SeedNode(slotId: 'extra', label: 'Extra', fixed: false);
     expect(node.fixed, isFalse);
   });
 
   test('GrowSpec describes both directions of a growable ladder', () {
-    const spec = GrowSpec(
+    final spec = GrowSpec(
       seedPrompt: 'State the problem',
       upLabel: 'Why?',
       upPrompt: 'A broader framing',
@@ -42,7 +51,7 @@ void main() {
   });
 
   test('a classifier routes an answer to a lens', () {
-    const classifier = ClassifierSpec(
+    final classifier = ClassifierSpec(
       questions: [
         ClassifierQuestion(
           prompt: 'Do you know what caused this?',
@@ -63,7 +72,7 @@ void main() {
 
   test('a lens card may carry an accent colour', () {
     // Stored as an int so the model layer stays free of Flutter imports.
-    const card = LensCard(
+    final card = LensCard(
       slotId: 'risk',
       name: 'Risks',
       prompt: 'What could go wrong?',
@@ -74,7 +83,7 @@ void main() {
   });
 
   test('a tree mode relabels the add-child action', () {
-    const mode = TreeMode(
+    final mode = TreeMode(
       id: 'why',
       label: 'Problem tree',
       childPrompt: 'Why is this happening?',
@@ -86,7 +95,7 @@ void main() {
   });
 
   test('a loop phase names a step of the cycle', () {
-    const phase = LoopPhase(
+    final phase = LoopPhase(
       slotId: 'observe',
       name: 'Observe',
       prompt: 'What is actually happening?',
@@ -98,7 +107,7 @@ void main() {
   });
 
   test('a rung names a level and the question that interrogates it', () {
-    const rung = RungSpec(
+    final rung = RungSpec(
       slotId: 'assumptions',
       name: 'Assumptions',
       prompt: 'What am I taking for granted?',
@@ -109,7 +118,7 @@ void main() {
   });
 
   test('an axis names both ends', () {
-    const axis = AxisSpec(
+    final axis = AxisSpec(
       label: 'Urgency',
       lowLabel: 'Not urgent',
       highLabel: 'Urgent',
