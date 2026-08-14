@@ -1,11 +1,11 @@
 /// Saved sessions, most recently edited first.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/tool_registry.dart';
 import 'package:untools/screens/session_screen.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Lists every saved session and reopens one on tap.
 class SessionsScreen extends StatelessWidget {

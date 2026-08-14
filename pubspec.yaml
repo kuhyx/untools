@@ -11,6 +11,14 @@ environment:
   sdk: ^3.12.2
 
 dependencies:
+  # The shared palette, scales and components. Owns the tokens: there is
+  # deliberately no local theme.dart to drift from the frozen table.
+  design_system:
+    git:
+      url: https://github.com/kuhyx/utils
+      ref: design_system-v0.1.0
+      path: design_system
+
   flutter:
     sdk: flutter
 

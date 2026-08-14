@@ -1,12 +1,12 @@
 /// The "where do I start?" router — the app's primary entry point.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/tool_registry.dart';
 import 'package:untools/screens/tool_detail_screen.dart';
 import 'package:untools/tools/guide.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Lists symptoms of being stuck, each opening the tool that addresses it.
 class GuideScreen extends StatelessWidget {

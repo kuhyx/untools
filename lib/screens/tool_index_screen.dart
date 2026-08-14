@@ -1,12 +1,12 @@
 /// Browse the whole catalogue, grouped by category.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/model/tool_registry.dart';
 import 'package:untools/screens/tool_detail_screen.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Lists every registered tool under its category heading.
 class ToolIndexScreen extends StatelessWidget {

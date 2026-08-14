@@ -15,6 +15,7 @@
 /// through a form rather than by dragging between nodes, for the same reason.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
@@ -22,7 +23,6 @@ import 'package:untools/model/tool_config.dart';
 import 'package:untools/patterns/graph/cycles.dart';
 import 'package:untools/patterns/graph/graph_model.dart';
 import 'package:untools/patterns/graph/layout.dart';
-import 'package:untools/ui/theme.dart';
 import 'package:uuid/uuid.dart';
 
 /// Height reserved for the diagram before the editing list.

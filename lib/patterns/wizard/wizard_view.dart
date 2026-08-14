@@ -1,11 +1,11 @@
 /// Pattern A — a tool worked through as an ordered sequence of prompts.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Renders each step as a titled prompt with a text field.
 ///

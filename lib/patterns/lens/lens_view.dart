@@ -8,11 +8,11 @@
 /// wrote under each.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Slot recording which lens a classifier selected.
 const String kSelectedLensSlot = 'selected-lens';

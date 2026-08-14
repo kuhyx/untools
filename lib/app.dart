@@ -1,12 +1,12 @@
 /// The app shell: theme, and the tab structure the screens live in.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/screens/guide_screen.dart';
 import 'package:untools/screens/sessions_screen.dart';
 import 'package:untools/screens/tool_index_screen.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Root widget.
 class UntoolsApp extends StatelessWidget {

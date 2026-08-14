@@ -1,13 +1,13 @@
 /// What a tool is, who devised it, and the button that starts a session.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
 import 'package:untools/model/tool_registry.dart';
 import 'package:untools/screens/session_screen.dart';
-import 'package:untools/ui/theme.dart';
 import 'package:uuid/uuid.dart';
 
 /// Shows one tool's description, attribution and related tools.

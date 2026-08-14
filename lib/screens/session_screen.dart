@@ -6,6 +6,7 @@
 /// handled — which is the point.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/export/session_markdown.dart';
@@ -20,7 +21,6 @@ import 'package:untools/patterns/loop/loop_view.dart';
 import 'package:untools/patterns/matrix/matrix_view.dart';
 import 'package:untools/patterns/tree/tree_view.dart';
 import 'package:untools/patterns/wizard/wizard_view.dart';
-import 'package:untools/ui/theme.dart';
 
 /// Hosts one session: the pattern widget, plus save and export.
 class SessionScreen extends StatelessWidget {

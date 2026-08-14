@@ -6,11 +6,11 @@
 /// the menu is built alongside the drag rather than added later.
 library;
 
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:untools/model/pattern_specs.dart';
 import 'package:untools/model/session.dart';
 import 'package:untools/model/tool_config.dart';
-import 'package:untools/ui/theme.dart';
 import 'package:uuid/uuid.dart';
 
 /// Renders the four quadrants and the items sorted into them.
