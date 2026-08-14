@@ -135,8 +135,8 @@ class GraphView extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
         ],
-        _SectionHeading(
-          title: 'Elements',
+        SectionHeader(
+          'Elements',
           action: _canEditNodes
               ? TextButton.icon(
                   onPressed: _addNode,
@@ -156,7 +156,7 @@ class GraphView extends StatelessWidget {
                 : null,
           ),
         const SizedBox(height: AppSpacing.md),
-        const _SectionHeading(title: 'Links'),
+        const SectionHeader('Links'),
         if (edges.isEmpty)
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
@@ -342,25 +342,6 @@ class _EdgePainter extends CustomPainter {
       if (other.edges[index].to != edge.to) return false;
     }
     return true;
-  }
-}
-
-class _SectionHeading extends StatelessWidget {
-  const _SectionHeading({required this.title, this.action});
-
-  final String title;
-  final Widget? action;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(title, style: Theme.of(context).textTheme.titleMedium),
-        ),
-        ?action,
-      ],
-    );
   }
 }
 
