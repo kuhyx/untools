@@ -16,7 +16,7 @@ dependencies:
   design_system:
     git:
       url: https://github.com/kuhyx/utils
-      ref: design_system-v0.1.0
+      ref: design_system-v0.2.1
       path: design_system
 
   flutter:
@@ -25,21 +25,21 @@ dependencies:
   # Local-only persistence. IndexedDB on web (which is also the desktop build),
   # a plain JSON file under the app support dir on Android. No network, no
   # accounts, no sync: deliberately NOT crdt_sync/http/secure_storage.
-  idb_shim: ^2.9.6+2
-  path: ^1.9.1
-  path_provider: ^2.1.5
+  idb_shim: 2.9.8
+  path: 1.9.1
+  path_provider: 2.1.6
 
   # Markdown export: share sheet on Android, Blob download on web.
-  share_plus: ^13.1.0
+  share_plus: 13.3.0
 
-  uuid: ^4.5.3
-  web: ^1.1.1
+  uuid: 4.6.0
+  web: 1.1.1
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.14.4
+  flutter_launcher_icons: 0.14.4
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^10.2.0
+  very_good_analysis: ^10.3.0
 
 flutter:
   uses-material-design: true

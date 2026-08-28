@@ -513,7 +513,7 @@ class _EdgeComposerState extends State<_EdgeComposer> {
 
     final labels = [
       for (final node in widget.nodes)
-        node.label.isEmpty ? 'Unnamed element' : node.label,
+        if (node.label.isEmpty) 'Unnamed element' else node.label,
     ];
     final items = [
       for (final (index, node) in widget.nodes.indexed)

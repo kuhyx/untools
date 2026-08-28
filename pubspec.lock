@@ -101,11 +101,11 @@ packages:
     dependency: "direct main"
     description:
       path: design_system
-      ref: "design_system-v0.1.0"
-      resolved-ref: e6c9af81e9ac3000d87d9168d3ef87ba2979258b
+      ref: "design_system-v0.2.1"
+      resolved-ref: "978d32af3af66f0d6500c4c6c0c6df5370ebe9a2"
       url: "https://github.com/kuhyx/utils"
     source: git
-    version: "0.1.0"
+    version: "0.2.1"
   fake_async:
     dependency: transitive
     description:
@@ -181,10 +181,10 @@ packages:
     dependency: "direct main"
     description:
       name: idb_shim
-      sha256: bc66cfd9afb17b3e1e966bbf0d16fa3cc782dfb058351f15daf4105a48033dca
+      sha256: e36a748165663a165e1f292e9d85af6e3aa087f6e2291d16f86b2035103b2950
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.7"
+    version: "2.9.8"
   image:
     dependency: transitive
     description:
