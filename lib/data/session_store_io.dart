@@ -17,10 +17,8 @@ import 'package:untools/model/session.dart';
 // coverage:ignore-start
 // Resolves a platform directory through path_provider, so it cannot run under
 // test; [openSessionStoreIn] holds all the logic and is covered.
-Future<SessionStore> openSessionStore() async {
-  final dir = await getApplicationSupportDirectory();
-  return openSessionStoreIn(dir.path);
-}
+Future<SessionStore> openSessionStore() => getApplicationSupportDirectory()
+    .then((dir) => openSessionStoreIn(dir.path));
 // coverage:ignore-end
 
 /// Opens the store rooted at [dirPath].
