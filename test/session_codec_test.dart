@@ -170,18 +170,13 @@ void main() {
 
     test('sorts newest edited first', () {
       final list = [
-        encodeSession(
-          buildSession(id: 'older', updatedAt: DateTime(2026)),
-        ),
+        encodeSession(buildSession(id: 'older', updatedAt: DateTime(2026))),
         encodeSession(
           buildSession(id: 'newer', updatedAt: DateTime(2026, 8, 9)),
         ),
       ];
 
-      expect(
-        decodeSessionList(list).map((s) => s.id),
-        ['newer', 'older'],
-      );
+      expect(decodeSessionList(list).map((s) => s.id), ['newer', 'older']);
     });
   });
 }

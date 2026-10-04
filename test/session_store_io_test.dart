@@ -113,9 +113,7 @@ void main() {
 
   test('returns sessions newest-edited first', () async {
     final store = await openSessionStoreIn(dir.path);
-    await store.save(
-      buildSession(id: 'older', updatedAt: DateTime(2026)),
-    );
+    await store.save(buildSession(id: 'older', updatedAt: DateTime(2026)));
     await store.save(
       buildSession(id: 'newer', updatedAt: DateTime(2026, 8, 9)),
     );

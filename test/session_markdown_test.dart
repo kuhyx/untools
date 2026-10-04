@@ -286,9 +286,7 @@ void main() {
         primary: ToolCategory.systemsThinking,
         tags: [],
         related: [],
-        fixedRungs: [
-          RungSpec(slotId: 'r1', name: 'Events', prompt: 'p'),
-        ],
+        fixedRungs: [RungSpec(slotId: 'r1', name: 'Events', prompt: 'p')],
       );
 
       final markdown = sessionToMarkdown(
@@ -368,9 +366,7 @@ void main() {
         primary: ToolCategory.decisionMaking,
         tags: [],
         related: [],
-        lenses: [
-          LensCard(slotId: 'risk', name: 'Risks', prompt: 'p'),
-        ],
+        lenses: [LensCard(slotId: 'risk', name: 'Risks', prompt: 'p')],
       );
 
       final markdown = sessionToMarkdown(

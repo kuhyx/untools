@@ -162,9 +162,7 @@ void main() {
     expect(find.text('2'), findsOneWidget);
   });
 
-  testWidgets('says so instead of inventing a winner on a tie', (
-    tester,
-  ) async {
+  testWidgets('says so instead of inventing a winner on a tie', (tester) async {
     await pumpGrid(tester, slots: gridSlots(scoreA: 2, scoreB: 2));
 
     expect(find.textContaining('No clear winner'), findsOneWidget);
@@ -176,9 +174,7 @@ void main() {
     expect(find.textContaining('No clear winner'), findsNothing);
   });
 
-  testWidgets('scoring one option leaves the others untouched', (
-    tester,
-  ) async {
+  testWidgets('scoring one option leaves the others untouched', (tester) async {
     final session = await pumpGrid(tester, slots: gridSlots(scoreB: 4));
 
     await tester.tap(find.byTooltip('Score Cost 5').first);
@@ -217,11 +213,7 @@ void main() {
   });
 
   testWidgets('is usable at 1024x600 without overflowing', (tester) async {
-    await pumpGrid(
-      tester,
-      slots: gridSlots(),
-      size: const Size(1024, 600),
-    );
+    await pumpGrid(tester, slots: gridSlots(), size: const Size(1024, 600));
 
     expect(tester.takeException(), isNull);
   });

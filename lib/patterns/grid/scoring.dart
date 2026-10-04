@@ -91,7 +91,5 @@ List<String> composeCombination(
   List<GridFactor> columns,
   Map<String, String> selection,
 ) {
-  return [
-    for (final column in columns) ?selection[column.id],
-  ];
+  return [for (final column in columns) ?selection[column.id]];
 }

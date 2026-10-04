@@ -75,9 +75,7 @@ void main() {
     expect(find.text('Restrictions'), findsOneWidget);
   });
 
-  testWidgets('a subfield answer is stored under its own slot', (
-    tester,
-  ) async {
+  testWidgets('a subfield answer is stored under its own slot', (tester) async {
     // Slot-id keying is what lets a subfield be added, moved or renamed
     // without disturbing any answer already saved.
     final session = await pumpWizard(tester, _nested);

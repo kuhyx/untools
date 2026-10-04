@@ -208,9 +208,7 @@ void main() {
     expect(find.textContaining('Covey'), findsOneWidget);
   });
 
-  testWidgets('remains usable at 1024x600 without overflowing', (
-    tester,
-  ) async {
+  testWidgets('remains usable at 1024x600 without overflowing', (tester) async {
     // The short-landscape target: content scrolls rather than clipping.
     await pumpApp(tester, size: _small);
 

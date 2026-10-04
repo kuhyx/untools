@@ -80,11 +80,7 @@ void main() {
     });
 
     testWidgets('is usable at 1024x600 without overflowing', (tester) async {
-      await pumpLens(
-        tester,
-        perspectiveLenses,
-        size: const Size(1024, 600),
-      );
+      await pumpLens(tester, perspectiveLenses, size: const Size(1024, 600));
 
       expect(tester.takeException(), isNull);
     });

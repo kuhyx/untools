@@ -115,10 +115,7 @@ void main() {
       await tester.enterText(find.byType(TextField).first, 'Caching');
       await tester.pumpAndSettle();
 
-      expect(
-        current.value.records(kGraphNodesSlot).first['label'],
-        'Caching',
-      );
+      expect(current.value.records(kGraphNodesSlot).first['label'], 'Caching');
     });
 
     testWidgets('removing an element drops it from the session', (
@@ -263,9 +260,7 @@ void main() {
             GraphNode(id: 'a', label: 'Caching'),
             GraphNode(id: 'b', label: 'Latency'),
           ],
-          edges: const [
-            GraphEdge(from: 'a', to: 'b', label: 'reduces'),
-          ],
+          edges: const [GraphEdge(from: 'a', to: 'b', label: 'reduces')],
         ),
       );
 
@@ -283,9 +278,7 @@ void main() {
             GraphNode(id: 'a', label: 'Bugs'),
             GraphNode(id: 'b', label: 'Rework'),
           ],
-          edges: const [
-            GraphEdge(from: 'a', to: 'b', sign: EdgeSign.positive),
-          ],
+          edges: const [GraphEdge(from: 'a', to: 'b', sign: EdgeSign.positive)],
         ),
       );
 
@@ -301,9 +294,7 @@ void main() {
             GraphNode(id: 'a', label: 'Hiring'),
             GraphNode(id: 'b', label: 'Backlog'),
           ],
-          edges: const [
-            GraphEdge(from: 'a', to: 'b', sign: EdgeSign.negative),
-          ],
+          edges: const [GraphEdge(from: 'a', to: 'b', sign: EdgeSign.negative)],
         ),
       );
 
@@ -557,9 +548,7 @@ void main() {
         connectionCircles,
         slots: graphSlots(
           nodes: const [GraphNode(id: 'a', label: 'Debt')],
-          edges: const [
-            GraphEdge(from: 'a', to: 'a', sign: EdgeSign.positive),
-          ],
+          edges: const [GraphEdge(from: 'a', to: 'a', sign: EdgeSign.positive)],
         ),
       );
 
@@ -638,11 +627,7 @@ void main() {
     });
 
     testWidgets('is usable at 1024x600 without overflowing', (tester) async {
-      await pumpGraph(
-        tester,
-        ishikawaDiagram,
-        size: const Size(1024, 600),
-      );
+      await pumpGraph(tester, ishikawaDiagram, size: const Size(1024, 600));
 
       expect(tester.takeException(), isNull);
     });

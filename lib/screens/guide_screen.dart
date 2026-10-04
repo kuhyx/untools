@@ -45,10 +45,8 @@ class GuideScreen extends StatelessWidget {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (_) => ToolDetailScreen(
-                      tool: tool,
-                      repository: repository,
-                    ),
+                    builder: (_) =>
+                        ToolDetailScreen(tool: tool, repository: repository),
                   ),
                 ),
               ),

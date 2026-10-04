@@ -88,10 +88,8 @@ class ToolDetailScreen extends StatelessWidget {
                   title: Text(other.name),
                   onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute<void>(
-                      builder: (_) => ToolDetailScreen(
-                        tool: other,
-                        repository: repository,
-                      ),
+                      builder: (_) =>
+                          ToolDetailScreen(tool: other, repository: repository),
                     ),
                   ),
                 ),

@@ -135,9 +135,7 @@ void main() {
       slotId: 'worst',
       title: 'The worst version',
       prompt: 'Describe it.',
-      subfields: [
-        WizardStep(slotId: 'why', title: 'Why', prompt: 'Why that?'),
-      ],
+      subfields: [WizardStep(slotId: 'why', title: 'Why', prompt: 'Why that?')],
     );
 
     expect(step.title, 'The worst version');

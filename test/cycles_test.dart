@@ -182,9 +182,7 @@ void main() {
       ]);
 
       expect(
-        {
-          for (final loop in loops) loop.signature: loop.reinforcing,
-        },
+        {for (final loop in loops) loop.signature: loop.reinforcing},
         {'a>b': true, 'a>c': false},
       );
     });

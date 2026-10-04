@@ -189,11 +189,7 @@ void main() {
     });
 
     testWidgets('is usable at 1024x600 without overflowing', (tester) async {
-      await pumpLadder(
-        tester,
-        ladderOfInference,
-        size: const Size(1024, 600),
-      );
+      await pumpLadder(tester, ladderOfInference, size: const Size(1024, 600));
 
       expect(tester.takeException(), isNull);
     });

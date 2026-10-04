@@ -89,10 +89,8 @@ class GraphView extends StatelessWidget {
   void _writeEdges(List<GraphEdge> edges) =>
       onChanged(session.withSlot(kGraphEdgesSlot, edgesToRecords(edges)));
 
-  void _addNode() => _writeNodes([
-    ..._nodes,
-    GraphNode(id: const Uuid().v4(), label: ''),
-  ]);
+  void _addNode() =>
+      _writeNodes([..._nodes, GraphNode(id: const Uuid().v4(), label: '')]);
 
   void _rename(String id, String label) => _writeNodes([
     for (final node in _nodes)

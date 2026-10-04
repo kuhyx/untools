@@ -36,11 +36,7 @@ class WizardView extends StatelessWidget {
     return ListView(
       children: [
         for (final step in config.steps) ...[
-          _StepField(
-            step: step,
-            session: session,
-            onChanged: onChanged,
-          ),
+          _StepField(step: step, session: session, onChanged: onChanged),
           for (final sub in step.subfields)
             Padding(
               padding: const EdgeInsets.only(left: AppSpacing.md),

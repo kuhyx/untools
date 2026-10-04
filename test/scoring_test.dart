@@ -9,11 +9,7 @@ void main() {
         const GridFactor(id: 'speed', name: 'Speed', weight: 2),
       ];
       final options = [
-        const GridOption(
-          id: 'a',
-          name: 'A',
-          scores: {'cost': 4, 'speed': 1},
-        ),
+        const GridOption(id: 'a', name: 'A', scores: {'cost': 4, 'speed': 1}),
       ];
 
       final results = scoreGrid(options, factors);

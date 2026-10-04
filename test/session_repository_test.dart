@@ -85,9 +85,7 @@ void main() {
   test('save keeps the list newest-edited first', () async {
     final repository = SessionRepository(FakeSessionStore());
 
-    await repository.save(
-      buildSession(id: 'old', updatedAt: DateTime(2026)),
-    );
+    await repository.save(buildSession(id: 'old', updatedAt: DateTime(2026)));
     await repository.save(
       buildSession(id: 'new', updatedAt: DateTime(2026, 8, 9)),
     );

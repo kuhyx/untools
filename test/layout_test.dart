@@ -21,11 +21,13 @@ void main() {
         final placed = place(variant, 5);
 
         expect(placed, hasLength(5), reason: '$variant');
-        expect(
-          placed.map((p) => p.node.id),
-          ['0', '1', '2', '3', '4'],
-          reason: '$variant',
-        );
+        expect(placed.map((p) => p.node.id), [
+          '0',
+          '1',
+          '2',
+          '3',
+          '4',
+        ], reason: '$variant');
       }
     });
 

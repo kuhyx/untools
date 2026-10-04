@@ -66,11 +66,7 @@ class TreeView extends StatelessWidget {
   void _add(String parentId) => _write(
     addChild(
       parentId,
-      TreeNode(
-        id: const Uuid().v4(),
-        label: '',
-        parentId: parentId,
-      ),
+      TreeNode(id: const Uuid().v4(), label: '', parentId: parentId),
       _nodes,
     ),
   );
@@ -78,9 +74,8 @@ class TreeView extends StatelessWidget {
   void _rename(String id, String label) =>
       _write(updateNode(id, (node) => node.copyWith(label: label), _nodes));
 
-  void _toggleMece(String id) => _write(
-    updateNode(id, (node) => node.copyWith(mece: !node.mece), _nodes),
-  );
+  void _toggleMece(String id) =>
+      _write(updateNode(id, (node) => node.copyWith(mece: !node.mece), _nodes));
 
   void _remove(String id) => _write(removeSubtree(id, _nodes));
 
@@ -99,9 +94,8 @@ class TreeView extends StatelessWidget {
                   ButtonSegment(value: option.id, label: Text(option.label)),
               ],
               selected: {mode.id},
-              onSelectionChanged: (selection) => onChanged(
-                session.withSlot(kTreeModeSlot, selection.first),
-              ),
+              onSelectionChanged: (selection) =>
+                  onChanged(session.withSlot(kTreeModeSlot, selection.first)),
             ),
           ),
         for (final node in nodes)

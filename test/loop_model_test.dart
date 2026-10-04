@@ -49,10 +49,9 @@ void main() {
         ]),
       });
 
-      expect(
-        phasesFor(configFor(growable: true), session).map((p) => p.name),
-        ['Mine'],
-      );
+      expect(phasesFor(configFor(growable: true), session).map((p) => p.name), [
+        'Mine',
+      ]);
     });
 
     test('ignores stored phases on a fixed loop', () {

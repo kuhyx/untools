@@ -16,12 +16,7 @@ List<TreeNode> sampleTree() => const [
 void main() {
   group('TreeNode records', () {
     test('round-trips through its stored form', () {
-      const node = TreeNode(
-        id: 'n',
-        label: 'Label',
-        parentId: 'p',
-        mece: true,
-      );
+      const node = TreeNode(id: 'n', label: 'Label', parentId: 'p', mece: true);
 
       final restored = TreeNode.fromRecord(node.toRecord());
 
