@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/tool_registry.dart';
 import 'package:untools/screens/session_screen.dart';
+import 'package:untools/ui/text_tile.dart';
 
 /// Lists every saved session and reopens one on tap.
 class SessionsScreen extends StatelessWidget {
@@ -36,35 +37,46 @@ class SessionsScreen extends StatelessWidget {
             ),
           );
         }
-        return ListView.builder(
+        return FitGrid(
           padding: const EdgeInsets.all(AppSpacing.md),
           itemCount: sessions.length,
+          columns: 2,
+          minSquare: 0.6,
           itemBuilder: (context, index) {
             final session = sessions[index];
             final tool = toolById(session.toolId);
-            return Card(
-              margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: ListTile(
-                title: Text(session.title),
-                // A tool can be retired while its sessions live on, so the
-                // name is resolved defensively rather than assumed present.
-                subtitle: Text(tool?.name ?? 'Unknown tool'),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  tooltip: 'Delete session',
-                  onPressed: () => repository.delete(session.id),
-                ),
-                onTap: tool == null
-                    ? null
-                    : () => Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => SessionScreen(
-                            sessionId: session.id,
-                            tool: tool,
-                            repository: repository,
-                          ),
+            // A tool can be retired while its sessions live on, so the
+            // name is resolved defensively rather than assumed present.
+            final toolName = tool?.name ?? 'Unknown tool';
+            return TextTile(
+              title: session.title,
+              caption: toolName,
+              onTap: tool == null
+                  ? null
+                  : () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => SessionScreen(
+                          sessionId: session.id,
+                          tool: tool,
+                          repository: repository,
                         ),
                       ),
+                    ),
+              onLongPress: () => showDetailSheet(
+                context,
+                title: session.title,
+                body: toolName,
+                actions: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.delete_outline),
+                    title: const Text('Delete session'),
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      await repository.delete(session.id);
+                    },
+                  ),
+                ],
               ),
             );
           },

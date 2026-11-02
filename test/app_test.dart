@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:untools/app.dart';
 import 'package:untools/data/session_repository.dart';
 import 'package:untools/model/session.dart';
+import 'package:untools/model/tool_config.dart';
+import 'package:untools/model/tool_registry.dart';
 
 import 'fake_session_store.dart';
 
@@ -45,6 +47,16 @@ Session buildSession({
   );
 }
 
+/// Picks [category]'s chip, since the guide and index show one at a time.
+Future<void> pickCategory(WidgetTester tester, ToolCategory category) async {
+  await tester.tap(find.widgetWithText(ChoiceChip, category.label));
+  await tester.pumpAndSettle();
+}
+
+/// The category the guide must switch to before [toolId]'s question shows.
+Future<void> pickCategoryOf(WidgetTester tester, String toolId) =>
+    pickCategory(tester, toolById(toolId)!.primary);
+
 void main() {
   testWidgets('opens on the guide, not an alphabetical tool list', (
     tester,
@@ -59,6 +71,7 @@ void main() {
     tester,
   ) async {
     await pumpApp(tester);
+    await pickCategoryOf(tester, 'inversion');
 
     expect(find.text('I can only picture this going well.'), findsOneWidget);
   });
@@ -66,6 +79,7 @@ void main() {
   testWidgets('tapping a guide entry opens that tool', (tester) async {
     await pumpApp(tester);
 
+    await pickCategoryOf(tester, 'inversion');
     await tester.tap(find.text('I can only picture this going well.'));
     await tester.pumpAndSettle();
 
@@ -73,25 +87,16 @@ void main() {
     expect(find.textContaining('Jacobi'), findsOneWidget);
   });
 
-  testWidgets('the tool index groups tools by category', (tester) async {
+  testWidgets('the tool index shows one category at a time', (tester) async {
     await pumpApp(tester);
-
     await tester.tap(find.text('All tools'));
     await tester.pumpAndSettle();
 
-    // Scrolled to one at a time, in list order. The list is lazy, so an
-    // off-screen heading is not merely offstage — it does not exist yet, and
-    // only scrolling brings it into being. Every phase adds tools, so which
-    // headings start above the fold keeps changing.
-    for (final heading in [
-      'Systems thinking',
-      'Decision making',
-      'Problem solving',
-      'Communication',
-    ]) {
-      final finder = find.text(heading);
-      await tester.scrollUntilVisible(finder, 300);
-      expect(finder, findsOneWidget, reason: heading);
+    for (final category in ToolCategory.values) {
+      await pickCategory(tester, category);
+      // Only the first is certain to be on page one at this window size.
+      final first = toolsInCategory(category).first;
+      expect(find.text(first.name), findsOneWidget, reason: first.name);
     }
   });
 
@@ -100,11 +105,8 @@ void main() {
     await tester.tap(find.text('All tools'));
     await tester.pumpAndSettle();
 
-    // Scrolled into view rather than tapped blind: the catalogue grows every
-    // phase, so any tool's position on screen is a moving target.
-    final tool = find.text('Iceberg model');
-    await tester.scrollUntilVisible(tool, 200);
-    await tester.tap(tool.first);
+    await pickCategoryOf(tester, 'iceberg-model');
+    await tester.tap(find.text('Iceberg model'));
     await tester.pumpAndSettle();
 
     expect(find.text('Start a session'), findsOneWidget);
@@ -146,7 +148,9 @@ void main() {
     await tester.tap(find.text('Sessions'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byTooltip('Delete session'));
+    await tester.longPress(find.text('Launch retro'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Delete session'));
     await tester.pumpAndSettle();
 
     expect(find.text('Launch retro'), findsNothing);
@@ -154,6 +158,7 @@ void main() {
 
   testWidgets('starting a session opens it and saves it', (tester) async {
     final repository = await pumpApp(tester);
+    await pickCategoryOf(tester, 'inversion');
     await tester.tap(find.text('I can only picture this going well.'));
     await tester.pumpAndSettle();
 
@@ -169,6 +174,7 @@ void main() {
   ) async {
     // The whole point of saving: a session is something you come back to.
     await pumpApp(tester);
+    await pickCategoryOf(tester, 'inversion');
     await tester.tap(find.text('I can only picture this going well.'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Start a session'));
@@ -193,6 +199,7 @@ void main() {
     tester,
   ) async {
     await pumpApp(tester);
+    await pickCategoryOf(tester, 'decision-matrix');
     await tester.tap(
       find.text(
         'I have several good options and cannot '
@@ -209,7 +216,7 @@ void main() {
   });
 
   testWidgets('remains usable at 1024x600 without overflowing', (tester) async {
-    // The short-landscape target: content scrolls rather than clipping.
+    // The short-landscape target: tiles page rather than clipping.
     await pumpApp(tester, size: _small);
 
     await tester.tap(find.text('All tools'));
